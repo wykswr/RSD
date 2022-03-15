@@ -1,10 +1,16 @@
-import pandas as pd
 import os
-from itertools import combinations
+
+import pandas as pd
+
+import setting
 
 
 def read_sc_value(file: str) -> pd.DataFrame:
-    tb = pd.read_table(file)
+    name, suffix = os.path.splitext(file)
+    if suffix == '.h5':
+        tb = pd.read_hdf(file, 'df')
+    else:
+        tb = pd.read_table(file)
     tb.set_index('GeneSymbol', inplace=True)
     return tb.transpose()
 
@@ -30,10 +36,8 @@ def save_sim(result: pd.DataFrame, path: str):
     result.to_csv(path, sep='\t', index=False)
 
 
-def save_sample(name: str, path: str, bulk: pd.DataFrame, frac: pd.DataFrame, profile: dict):
-    new_path = os.path.join(path, name)
+def save_sample(name: str, bulk: pd.DataFrame, sc: pd.DataFrame):
+    new_path = os.path.join(setting.sim_data_dir, name)
     os.makedirs(new_path, exist_ok=True)
     save_sim(bulk, os.path.join(new_path, 'bulk.sim'))
-    save_sim(frac, os.path.join(new_path, 'frac.sim'))
-    for k, v in profile.items():
-        save_sim(v, os.path.join(new_path, k+'.sim'))
+    save_sim(sc, os.path.join(new_path, 'sc.sim'))
