@@ -1,5 +1,7 @@
 import random
+
 import numpy as np
+
 from file_io import read_sc_label, read_genes, read_sc_value
 
 

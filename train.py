@@ -1,10 +1,8 @@
 import tensorflow.keras as keras
-from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow.keras.optimizers import Adam
-from DAE import FC1
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.metrics import MeanAbsoluteError, MeanSquaredError, CosineSimilarity
-from sklearn.preprocessing import normalize
+from tensorflow.keras.optimizers import Adam
 
 
 def train(mod, X, y):

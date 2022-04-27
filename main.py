@@ -1,11 +1,13 @@
 import random
 from argparse import ArgumentParser
+
 import pandas as pd
+from sklearn.preprocessing import normalize
+
+from DAE import FC1
 from Simulator import Simulator
 from file_io import read_sc_value, save_sim
 from train import train
-from DAE import FC1
-from sklearn.preprocessing import normalize
 
 
 def predict(sc_value: str, sc_label: str, bulk: str, tag_cell: str, out_dir: str):

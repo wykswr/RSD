@@ -1,12 +1,6 @@
 import tensorflow as tf
 import tensorflow.keras as keras
 import tensorflow.keras.layers as layers
-from tensorflow.keras import models
-from tensorflow.keras.activations import elu, tanh, sigmoid
-from tensorflow.keras.layers import Input, BatchNormalization, Dense, Dropout, GaussianNoise
-from tensorflow.keras.models import Model
-from tensorflow.keras.regularizers import l2
-from tensorflow.keras.utils import plot_model
 
 
 class FC1(keras.Model):
