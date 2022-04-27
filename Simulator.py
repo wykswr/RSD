@@ -1,18 +1,18 @@
 import random
-
 import numpy as np
-
-from file_io.sim_io import read_sc_label, read_genes, read_sc_value
+from file_io import read_sc_label, read_genes, read_sc_value
 
 
 class Simulator:
     def __init__(self, sc_label: str, sc_value: str, bk_value: str):
         self.scv_tb = read_sc_value(sc_value)
         self.genes = list(set(self.scv_tb.columns).intersection(set(read_genes(bk_value))))
-        self.scv_tb = read_sc_value(sc_value)[self.genes]
+        self.genes = sorted(self.genes)
+        self.scv_tb = self.scv_tb[self.genes]
         self.scl_tb = read_sc_label(sc_label)
         self.drop_rate = 0.05
         self.cell_type = list(self.scl_tb.CellType.unique())
+        self.cell_type = sorted(self.cell_type)
 
     def set_drop_rate(self, drop_rate: float):
         assert 0 <= drop_rate <= 1
@@ -47,6 +47,7 @@ class Simulator:
         labels = list()
         oid = random.choice(scl['orig.ident'].unique())
         for k, v in cell_num.items():
+            v = int(v)
             labels.append(
                 list(scl.loc[(scl.CellType == k) & (scl['orig.ident'] == oid)].sample(n=v, replace=True).index))
         return labels
@@ -60,8 +61,8 @@ class Simulator:
         return mat.sum(axis=0) / mat.shape[0]
 
     def simulate(self, n_cell: int, aim_cell: str):
-        cell_num = self.gen_cell_num(n_cell)
-        labels = self.extract_label(cell_num)
+        n_cell_dc = self.gen_cell_num(n_cell)
+        labels = self.extract_label(n_cell_dc)
         type_dc = dict(zip(self.cell_type, labels))
         bulk = self.gen_bulk(labels)
         sc = self.gen_bulk(type_dc[aim_cell])

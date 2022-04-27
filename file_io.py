@@ -1,8 +1,6 @@
 import os
-
 import pandas as pd
-
-import setting
+from others import setting
 
 
 def read_sc_value(file: str) -> pd.DataFrame:
@@ -32,12 +30,16 @@ def read_genes(file: str) -> list:
     return genes
 
 
+def read_sim(file: str) -> pd.DataFrame:
+    return pd.read_table(file)
+
+
 def save_sim(result: pd.DataFrame, path: str):
     result.to_csv(path, sep='\t', index=False)
 
 
 def save_sample(name: str, bulk: pd.DataFrame, sc: pd.DataFrame):
-    new_path = os.path.join(setting.sim_data_dir, name)
+    new_path = os.path.join(setting.save_dir, name)
     os.makedirs(new_path, exist_ok=True)
     save_sim(bulk, os.path.join(new_path, 'bulk.sim'))
     save_sim(sc, os.path.join(new_path, 'sc.sim'))
