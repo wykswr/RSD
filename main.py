@@ -4,10 +4,8 @@ import sys
 from argparse import ArgumentParser
 import pandas as pd
 from sklearn.preprocessing import normalize
-from DAE import FC1
 from Simulator import Simulator
 from file_io import read_sc_value, save_sim, read_sim
-from train import train
 
 
 def get_args():
@@ -28,11 +26,10 @@ if __name__ == '__main__':
     args = get_args()
     if args.sim:
         sim_bulk, sim_sc = map(read_sim, (args.bulk, args.profile))
-
     else:
         cook = Simulator(args.singleCellLabel, args.singleCellValue, args.input)
         sim_bulk, sim_sc = list(), list()
-        for i in range(2000):
+        for i in range(3000):
             this_bulk, this_sc = cook.simulate(random.randint(300, 800), args.targetCell)
             sim_bulk.append(this_bulk)
             sim_sc.append(this_sc)
@@ -44,6 +41,8 @@ if __name__ == '__main__':
         save_sim(sim_bulk, os.path.join(args.output, 'bulk.sim'))
         save_sim(sim_sc, os.path.join(args.output, '{}.sim'.format(args.targetCell)))
         sys.exit(0)
+    from train import train
+    from DAE import FC1
     ori_bulk = read_sc_value(args.input)
     genes = set(ori_bulk.columns).intersection(sim_bulk.columns)
     ori_bulk, sim_bulk, sim_sc = map(lambda x: x[genes], (ori_bulk, sim_bulk, sim_sc))
