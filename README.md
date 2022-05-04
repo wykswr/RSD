@@ -1,5 +1,5 @@
 # RSD
-RSD (RNA-seq deconvolutioner) is an automatic protocol for RNA-Seq deconvolution and obtaining CD8 T cell specific sc RNA-seq.
+RSD (RNA-seq deconvolutioner) is an automatic protocol for RNA-Seq deconvolution and obtaining CD8 T cell specific gene profile.
 
 
 ## environment
