@@ -2,6 +2,8 @@ import os
 import random
 import sys
 from argparse import ArgumentParser
+
+import numpy as np
 import pandas as pd
 from sklearn.preprocessing import normalize
 from Simulator import PdSimulator, DbSimulator
@@ -44,8 +46,8 @@ if __name__ == '__main__':
         if args.database:
             cook.close()
         del cook
+        sim_bulk, sim_sc = map(lambda x: normalize(np.array(x), axis=1), (sim_bulk, sim_sc))
         sim_bulk, sim_sc = pd.DataFrame(data=sim_bulk, columns=genes), pd.DataFrame(data=sim_sc, columns=genes)
-        sim_bulk, sim_sc = map(lambda x: normalize(x, axis=1), (sim_bulk, sim_sc))
     if args.generateSim:
         save_sim(sim_bulk, os.path.join(args.output, 'bulk.sim'))
         save_sim(sim_sc, os.path.join(args.output, '{}.sim'.format(args.targetCell)))
