@@ -27,6 +27,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
+    os.makedirs(args.output, exist_ok=True)
     if args.sim:
         sim_bulk, sim_sc = map(read_sim, (args.bulk, args.profile))
     else:
