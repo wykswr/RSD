@@ -4,7 +4,7 @@ import sys
 from argparse import ArgumentParser
 import pandas as pd
 from sklearn.preprocessing import normalize
-from PdSimulator import PdSimulator, DbSimulator
+from Simulator import PdSimulator, DbSimulator
 from file_io import read_sc_value, save_sim, read_sim
 
 
